@@ -1,20 +1,53 @@
 package com.padcmyanmar.padc7.mmnews.data.vos;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Embedded;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.ForeignKey;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.Index;
+import android.arch.persistence.room.PrimaryKey;
+
 import com.google.gson.annotations.SerializedName;
+
+@Entity(tableName = "comments" ,
+        foreignKeys = @ForeignKey(entity = NewsVO.class,
+                        parentColumns = "news_id",
+        childColumns = "news_id"),indices = {@Index(value = {"news_id"}, unique = true)})
 
 public class CommentVO {
 
+    @PrimaryKey(autoGenerate = true)
+    @SerializedName("comment-id_pk")
+    private long commentIdPk;
+
     @SerializedName("comment-id")
+    @ColumnInfo(name = "comment_id")
     private String commentId;
 
+    @ColumnInfo(name = "comment")
     @SerializedName("comment")
     private String comment;
 
+    @ColumnInfo(name = "comment-date")
     @SerializedName("comment-date")
     private String commentDate;
 
+    @ColumnInfo(name = "news_id")
+    private String newsId;
+
+    @Embedded
     @SerializedName("acted-user")
     private ActedUserVO actedUser;
+
+    public String getNewsId() {
+        return newsId;
+    }
+
+
+    public long getCommentIdPk() {
+        return commentIdPk;
+    }
 
     public String getCommentId() {
         return commentId;
@@ -30,5 +63,29 @@ public class CommentVO {
 
     public ActedUserVO getActedUser() {
         return actedUser;
+    }
+
+    public void setCommentId(String commentId) {
+        this.commentId = commentId;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public void setCommentDate(String commentDate) {
+        this.commentDate = commentDate;
+    }
+
+    public void setActedUser(ActedUserVO actedUser) {
+        this.actedUser = actedUser;
+    }
+
+    public void setNewsId(String newsId) {
+        this.newsId = newsId;
+    }
+
+    public void setCommentIdPk(long commentIdPk) {
+        this.commentIdPk = commentIdPk;
     }
 }

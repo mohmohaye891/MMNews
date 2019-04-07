@@ -19,12 +19,16 @@ import android.widget.Toast;
 
 import com.padcmyanmar.padc7.mmnews.R;
 import com.padcmyanmar.padc7.mmnews.adapters.NewsAdapter;
+import com.padcmyanmar.padc7.mmnews.components.SmartRecyclerView;
 import com.padcmyanmar.padc7.mmnews.data.models.NewsModel;
 import com.padcmyanmar.padc7.mmnews.data.models.NewsModelImpl;
 import com.padcmyanmar.padc7.mmnews.data.models.UserModel;
 import com.padcmyanmar.padc7.mmnews.data.models.UserModelImpl;
+import com.padcmyanmar.padc7.mmnews.data.vos.LoginUserVO;
 import com.padcmyanmar.padc7.mmnews.data.vos.NewsVO;
 import com.padcmyanmar.padc7.mmnews.delegates.NewsItemDelegate;
+import com.padcmyanmar.padc7.mmnews.delegates.ViewPodSetDelegate;
+import com.padcmyanmar.padc7.mmnews.views.pods.EmptyViewPod;
 import com.padcmyanmar.padc7.mmnews.views.pods.LoginUserViewPod;
 
 import java.util.List;
@@ -45,6 +49,12 @@ public class MainActivity extends BaseActivity implements NewsItemDelegate {
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
+
+    @BindView(R.id.rv_news)
+    SmartRecyclerView rvNews;
+
+    @BindView(R.id.vp_empty)
+    EmptyViewPod vpEmpty;
 
     private NewsAdapter mNewsAdapter;
 
@@ -100,7 +110,7 @@ public class MainActivity extends BaseActivity implements NewsItemDelegate {
             }
         });
 
-        RecyclerView rvNews = findViewById(R.id.rv_news);
+       // RecyclerView rvNews = findViewById(R.id.rv_news);
         rvNews.setLayoutManager(new LinearLayoutManager(getApplicationContext(),
                 LinearLayoutManager.VERTICAL, false));
 
@@ -114,12 +124,40 @@ public class MainActivity extends BaseActivity implements NewsItemDelegate {
 
         mNewsModel = NewsModelImpl.getInstance();
         mUserModel = UserModelImpl.getInstance();
+/*
+        LoginUserVO loginUser = mUserModel.getLoginUser();
+        if (loginUser == null){
+
+
+        }*/  // use below one (cos of encapsulation)
+
+        if (!mUserModel.isUserdLogin()){
+            //User hasn't login
+            navigateToLogInScreen();
+
+                    return;
+        }
 
         LoginUserViewPod vpLoginUser = (LoginUserViewPod) mNavigationView.getHeaderView(0);
         vpLoginUser.setData(mUserModel.getLoginUser());
+        vpLoginUser.setDelegate(new LoginUserViewPod.LoginViewPodActionDelegate() {
+            @Override
+            public void onTapLogout() {
+                UserModelImpl.getInstance().onUserLogout();
+                navigateToLogInScreen();
+            }
+        });
 
+        rvNews.setEmptyView(vpEmpty);
         bindNews(true);
+
     }
+
+    private void navigateToLogInScreen() {
+        Intent intent =  LoginActivity.newIntent(getApplicationContext());
+        startActivity(intent);
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

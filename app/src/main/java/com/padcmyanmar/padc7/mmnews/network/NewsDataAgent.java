@@ -18,5 +18,7 @@ public interface NewsDataAgent {
     void login(String emailOrPhoneNumber, String password,
                LoginDelegate loginDelegate);
 
+    //void logout(LoginUserViewPodDelegate loginUserViewPodDelegate);
+
     void register(String phoneNUmber, String name, String password);
 }

@@ -33,10 +33,18 @@
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <android.support.v7.widget.RecyclerView
+            <com.padcmyanmar.padc7.mmnews.components.SmartRecyclerView
                 android:id="@+id/rv_news"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+
+           <include
+               layout="@layout/view_pod_empty"
+                android:id="@+id/vp_empty"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+
 
         </RelativeLayout>
 

@@ -7,5 +7,12 @@ public interface UserModel {
 
     void login(String emailOrPassword, String password, LoginDelegate loginDelegate);
 
+
+    void onUserLogout();
+
     LoginUserVO getLoginUser();
+
+
+
+    boolean isUserdLogin();
 }

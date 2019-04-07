@@ -1,5 +1,7 @@
 package com.padcmyanmar.padc7.mmnews.data.vos;
 
+import android.arch.persistence.room.ColumnInfo;
+
 import com.google.gson.annotations.SerializedName;
 
 public class SendToVO {
@@ -15,6 +17,22 @@ public class SendToVO {
 
     @SerializedName("received-user")
     private ActedUserVO receivedUser;
+
+    public void setSentToId(String sentToId) {
+        this.sentToId = sentToId;
+    }
+
+    public void setSentToDate(String sentToDate) {
+        this.sentToDate = sentToDate;
+    }
+
+    public void setActedUser(ActedUserVO actedUser) {
+        this.actedUser = actedUser;
+    }
+
+    public void setReceivedUser(ActedUserVO receivedUser) {
+        this.receivedUser = receivedUser;
+    }
 
     public String getSentToId() {
         return sentToId;
